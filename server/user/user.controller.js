@@ -22,8 +22,11 @@ function list(req, res, next) {
 
 function create(req, res, next) {
     const user = new User({
+        email: req.body.email,
+        password: req.body.password,
         name: req.body.name,
-        mobile: req.body.mobile
+        mobile: req.body.mobile,
+        birthday: req.body.birthday
     });
 
     user.save()
@@ -35,6 +38,7 @@ function update(req, res, next) {
     const user = req.user;
     user.name = req.body.name;
     user.mobile = req.body.mobile;
+    user.birthday = req.body.birthday; 
   
     user.save()
         .then(savedUser => res.json(savedUser))

@@ -2,6 +2,14 @@ const Promise = require('bluebird');
 const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
+    email: {
+        type: String,
+        required: true
+    },
+    password: {
+        type: String,
+        required: true
+    },       
     name: {
         type: String,
         required: true
@@ -11,6 +19,10 @@ const UserSchema = new mongoose.Schema({
         required: true,
         // match: [/^[1-9][0-9]{9}$/, 'The value of path {PATH} ({VALUE}) is not a valid mobile number.']
     },
+    birthday: {
+        type: String,
+        required: true
+    },    
     created: {
         type: Date,
         default: Date.now
