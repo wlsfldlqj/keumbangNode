@@ -9,7 +9,9 @@ function list(req, res, next) {
 
 function create(req, res, next) {
     const user = new User({
+        email: req.body.email,
         name: req.body.name,
+        password: req.body.password,
         mobile: req.body.mobile
     });
 
