@@ -12,7 +12,10 @@ router.route('/')
 
 router.route('/:userId')
     .get(util.isLoggedin, userCtrl.get) //내 정보 보기
-    .put(validate(paramValidation.updateUser), userCtrl.update) //내 정보 업데이트
+    .put(util.isLoggedin, validate(paramValidation.updateUser), userCtrl.update) //내 정보 업데이트
+
+router.route('/checkPassword/:userId')
+    .post(util.isLoggedin, validate(paramValidation.checkPassword), userCtrl.checkPassword) //비밀번호 체크
 
 router.param('userId', userCtrl.load);
 

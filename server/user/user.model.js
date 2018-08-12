@@ -73,10 +73,10 @@ UserSchema.statics = {
 
 UserSchema.pre('save', function (next){
     var user = this;
-    if(!user.isModified('password')){ //기존 document의 password 필드가 변경되었는지 체크. 신규가입 / 정보수정
+    if(!user.isModified('password')){ //기존 document의 password 필드가 변경되었는지 체크. 신규가입 
         return next();
     } else {
-        user.password = bcrypt.hashSync(user.password);
+        user.password = bcrypt.hashSync(user.password); // 정보수정
         return next();
     }
 });
