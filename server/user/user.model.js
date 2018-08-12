@@ -47,10 +47,19 @@ UserSchema.statics = {
         .exec()
         .then((user) => {
             if (user) {
-            return user;
+                return user;
             }
             const err = new APIError('No such user exists!', httpStatus.NOT_FOUND);
             return Promise.reject(err);
+        });
+    },
+    getByEmail(email){
+        return this.findOne({'email': email})
+        .exec()
+        .then((user)=>{
+            if (user){
+                return user;
+            }else return null;
         });
     },
     list({ skip = 0, limit = 50 } = {}) {

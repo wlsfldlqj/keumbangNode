@@ -1,3 +1,4 @@
+const util = require('../util');
 const User = require('./user.model');
 
 function load(req, res, next, id) {
@@ -29,9 +30,17 @@ function create(req, res, next) {
         birthday: req.body.birthday
     });
 
-    user.save()
-        .then(savedUser => res.json(savedUser))
-        .catch(e => next(e));
+    User.getByEmail(req.body.email)
+        .then(userData => {
+            if(userData == null){
+                user.save()
+                    .then(savedUser => res.json(savedUser))
+                    .catch(e => next(e));                
+            }else{
+                res.json(util.successFalse(null,'이미 가입된 이메일입니다.'));
+            }
+        })
+        .catch(e => next(e));    
 }
 
 function update(req, res, next) {

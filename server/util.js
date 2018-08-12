@@ -35,13 +35,14 @@ util.parseError = function(errors){ //3
     return parsed;
 };
 
-util.isLoggedin = function(req,res,next){ //4
+util.isLoggedin = function(req,res,next){
     var token = req.headers['x-access-token'];
     if (!token) return res.json(util.successFalse(null,'token is required!'));
     else {
         jwt.verify(token, process.env.JWT_SECRET, function(err, decoded) {
             if(err) return res.json(util.successFalse(err));
             else{
+                if(typeof req.params.userId != "undefined" && req.params.userId != decoded._id) return res.json(util.successFalse(null,'invalid token'));
                 req.decoded = decoded;
                 next();
             }
