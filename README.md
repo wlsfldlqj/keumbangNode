@@ -3,6 +3,9 @@
 아래 프로젝트를 참고함  
 https://github.com/kunalkapadia/express-mongoose-es6-rest-api
 
+mongoDB 설치  
+http://excelsior-cjh.tistory.com/85
+
 MongoDB를 관리할 수 있는 GUI 툴  
 http://excelsior-cjh.tistory.com/85
 
