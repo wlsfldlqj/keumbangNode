@@ -37,7 +37,7 @@ router.post('/login',
                 var options = {expiresIn: 60*60*24};
                 jwt.sign(payload, secretOrPrivateKey, options, function(err, token){
                     if(err) return res.json(util.successFalse(err));
-                    res.json(util.successTrue(token));
+                    res.json(util.successTrue({ "_id" : payload._id, token : token}));
                 });
             }
         });
