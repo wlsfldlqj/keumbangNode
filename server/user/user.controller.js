@@ -4,7 +4,7 @@ const User = require('./user.model');
 const bcrypt = require('bcrypt-nodejs');
 
 function load(req, res, next, id) {
-    User.get(id)
+    User.get(id) 
         .then((user) => {
             req.user = user;
             return next();
@@ -13,10 +13,10 @@ function load(req, res, next, id) {
 }
   
 function get(req, res) {
-    return res.json(req.user);
+    return res.json(util.successTrue(req.user));
 }
 
-function list(req, res, next) {
+function list(req, res, next) { 
     const { limit = 50, skip = 0 } = req.query;
     User.list({ limit, skip })
         .then(users => res.json(users))
@@ -48,7 +48,7 @@ function create(req, res, next) {
                             if(err) return res.json(util.successFalse(null,'회원가입 기능에 문제가 생겼습니다. 다시 시도해 주세요(access_token)'));
                             savedUser = savedUser.toObject(); //Mongoose Document 객체를 Object로 변경해서 token 추가
                             savedUser.access_token = token
-                            res.json(savedUser)
+                            res.json(util.successTrue(savedUser))
                         });
                     })
                     .catch(e => next(e));                
@@ -63,7 +63,7 @@ function update(req, res, next) {
     const user = req.user;
     user.password = req.body.password;
     user.save()
-        .then(savedUser => res.json(savedUser))
+        .then(savedUser => res.json(util.successTrue(savedUser)))
         .catch(e => next(e));
 }
 
