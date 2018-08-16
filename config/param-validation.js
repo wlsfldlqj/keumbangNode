@@ -21,5 +21,11 @@ module.exports = {
 		body: {
 			password: Joi.string().required()
 		}
+	},
+	//계좌 관련
+	depositKrw: {
+		body: {
+			krw: Joi.number().integer().min(1000)
+		}
 	}  
 };

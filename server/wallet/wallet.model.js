@@ -54,6 +54,20 @@ WalletSchema.statics = {
             }else return null;
         });
     },
+    depositKrw(_id, krw){
+        return this.findOneAndUpdate({ _id: _id }, { $inc: { 'krw': krw }}, { new: true})
+        .exec()
+        .then((wallet)=>{
+            return wallet
+        })
+    },
+    withdrawKrw(_id, krw){
+        return this.findOneAndUpdate({ _id: _id }, { $inc: { 'krw': -krw }}, { new: true})
+        .exec()
+        .then((wallet)=>{
+            return wallet
+        })
+    }
 };
   
 module.exports = mongoose.model('Wallet', WalletSchema);

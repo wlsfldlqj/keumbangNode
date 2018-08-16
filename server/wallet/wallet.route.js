@@ -13,6 +13,10 @@ router.route('/')
 router.route('/:walletId')
       .get(util.isLoggedin, walletCtrl.get) //지갑 아이디로 지갑 정보 조회(로그인된 사용자)
 
+router.route('/account/krw') 
+      .post(util.isLoggedin, validate(paramValidation.depositKrw), walletCtrl.depositKrw) //krw 입금
+      .put(util.isLoggedin, validate(paramValidation.depositKrw), walletCtrl.withdrawKrw) //krw 출금
+
 router.param('walletId', walletCtrl.load);
 
 module.exports = router;

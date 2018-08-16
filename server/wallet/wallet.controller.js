@@ -61,4 +61,47 @@ function getWalletAddr(){
     return text;
 }
 
-module.exports = { load, get, getWalletId, addWallet };
+/************입출금관련************/
+
+function depositKrw(req, res, next){ //돈 입금. 결제모듈에서 결제 완료 후 호출됨
+    
+    var user_id = req.decoded._id;
+    var krw = req.body.krw
+
+    Wallet.getAddr(user_id) //이미 지갑이 존재하는지 조회
+        .then(wallet => {
+            if(wallet){
+                Wallet.depositKrw(wallet._id, krw)
+                    .then(wallet => {
+                        res.json(util.successTrue({krw: wallet.krw}))
+                    })
+            }
+            else{
+                res.json(util.successFalse(null, "생성된 지갑이 없습니다."))
+            }
+        })    
+}
+
+function withdrawKrw(req, res, netxt){ //돈 출금. 실제 출금 완료 후 호출
+    var user_id = req.decoded._id;
+    var krw = req.body.krw
+    Wallet.getAddr(user_id) //이미 지갑이 존재하는지 조회
+        .then(wallet => {
+            if(wallet){
+                if(wallet.krw >= krw){
+                    Wallet.withdrawKrw(wallet._id, krw)
+                        .then(wallet => {
+                            res.json(util.successTrue({krw: wallet.krw}))
+                        })
+                }else{
+                    res.json(util.successFalse(null, "출금 요청 금액이 현재 보유 금액보다 큽니다."))
+                }
+            }
+            else{
+                res.json(util.successFalse(null, "생성된 지갑이 없습니다."))
+            }
+        })        
+}
+
+
+module.exports = { load, get, getWalletId, addWallet, depositKrw, withdrawKrw };
